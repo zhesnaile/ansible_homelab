@@ -20,8 +20,8 @@ chpasswd:
 
 users:
   - name: bali # Change me
-    ssh_authorized_keys:
-      - ssh-rsa AAAAXX #Chageme
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    shell: /bin/bash
-    groups: wheel
+      ssh_authorized_keys:
+        - ssh-rsa AAAAXX #Chageme
+      sudo: ['ALL=(ALL) NOPASSWD:ALL']
+      shell: /bin/bash
+      groups: wheel
