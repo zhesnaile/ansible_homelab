@@ -1,0 +1,26 @@
+---
+- name: Set amd64 architecture
+  ansible.builtin.set_fact:
+    podman_arch: amd64
+  when: ansible_architecture == "x86_64"
+
+- name: Set arm64 architecture
+  ansible.builtin.set_fact:
+    podman_arch: arm64
+  when: ansible_architecture == "aarch64" or ansible_architecture == "arm64"
+
+- name: Update dnf and install podman
+  block:
+    - name: Attempt installation
+      ansible.builtin.dnf:
+        update_cache: true
+        name: "{{ podman_packages }}"
+        state: present
+
+- name: Create podman directory
+  ansible.builtin.file:
+    path: "{{ podman_dir }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755

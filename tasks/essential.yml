@@ -1,0 +1,26 @@
+---
+- name: Dnf Operations.
+  block:
+    - name: Update packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_only: true
+        update_cache: true
+      when: ansible_os_family == "RedHat"
+
+    - name: Remove unneeded packages
+      ansible.builtin.dnf:
+        autoremove: true
+      when: ansible_os_family == "RedHat"
+
+    - name: Install packages
+      ansible.builtin.dnf:
+        name: "{{ packages }}"
+        state: present
+      register: yum_install_status
+  when: ansible_os_family == 'RedHat'
+
+- name: Reboot when packages were updated
+  ansible.builtin.reboot:
+  when: yum_install_status.changed and ansible_os_family == "RedHat"
