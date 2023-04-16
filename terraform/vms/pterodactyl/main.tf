@@ -6,11 +6,6 @@ terraform {
   }
 }
 
-variable "host_uri" {
-    type = string
-    default = "qemu:///system"
-}
-
 provider "libvirt" {
   uri = var.host_uri
 }

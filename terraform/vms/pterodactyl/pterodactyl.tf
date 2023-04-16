@@ -2,7 +2,7 @@
 resource "libvirt_volume" "pterodactyl_ubuntu-qcow2" {
   name   = "pterodactyl_ubuntu.qcow2"
   pool   = "default"
-  source = "https://cloud-images.ubuntu.com/lunar/current/lunar-server-cloudimg-amd64-disk-kvm.img"
+  source = "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.img"
   format = "qcow2"
 }
 
@@ -20,12 +20,15 @@ resource "libvirt_cloudinit_disk" "commoninit" {
   name           = "commoninit.iso"
   user_data      = "${data.template_file.user_data.rendered}"
   network_config = "${data.template_file.network_config.rendered}"
-  pool           = "${libvirt_pool.ubuntu.name}"
+  pool           = "default"
 }
+
 resource "libvirt_domain" "pterodactyl_ubuntu" {
   name   = "pterodactyl_ubuntu"
   memory = "4096"
   vcpu   = 4
+
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
 
   network_interface {
     network_name = "default"
