@@ -1,8 +1,0 @@
----
-- name: setup homeservers
-  hosts: all
-  become: true
- 
-  tasks:
-    - name: update machines
-      ansible.builtin.include_tasks: tasks/update.yaml
