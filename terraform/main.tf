@@ -6,7 +6,11 @@ terraform {
   }
 }
 
-module "pterodactyl_ubuntu" {
-  source = "./vms/pterodactyl"
+#module "pterodactyl_ubuntu" {
+#  source = "./vms/pterodactyl"
+#}
+
+module "rocky_test" {
+    source = "./vms/rocky_test"
 }
 

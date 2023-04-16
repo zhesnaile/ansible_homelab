@@ -1,8 +1,21 @@
+# pull provider
+terraform {
+  required_providers {
+    libvirt = {
+      source = "dmacvicar/libvirt"
+    }
+  }
+}
+
+provider "libvirt" {
+  uri = var.host_uri
+}
+
 # Define VM Volume
-resource "libvirt_volume" "pterodactyl_ubuntu-qcow2" {
-  name   = "pterodactyl_ubuntu.qcow2"
+resource "libvirt_volume" "rocky_test-qcow2" {
+  name   = "rocky_test.qcow2"
   pool   = "default"
-  source = "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.img"
+  source = "https://download.rockylinux.org/pub/rocky/8.7/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
   format = "qcow2"
 }
 
@@ -23,10 +36,10 @@ resource "libvirt_cloudinit_disk" "commoninit" {
   pool           = "default"
 }
 
-resource "libvirt_domain" "pterodactyl_ubuntu" {
-  name   = "pterodactyl_ubuntu"
-  memory = "4096"
-  vcpu   = 4
+resource "libvirt_domain" "rocky_test" {
+  name   = "rocky_test"
+  memory = "2048"
+  vcpu   = 2
 
   cloudinit = libvirt_cloudinit_disk.commoninit.id
 
@@ -35,7 +48,7 @@ resource "libvirt_domain" "pterodactyl_ubuntu" {
   }
 
   disk {
-    volume_id = libvirt_volume.pterodactyl_ubuntu-qcow2.id
+    volume_id = libvirt_volume.rocky_test-qcow2.id
   }
 
   console {
