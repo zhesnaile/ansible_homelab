@@ -1,0 +1,49 @@
+---
+- name: Create pihole directory
+  ansible.builtin.file:
+    path: "{{ podman_dir }}/pihole/{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+  loop:
+    - "etc_pihole-unbound"
+    - "etc_pihole_dnsmasq-unbound"
+
+- name: Create pihole_unbound container
+  containers.podman.podman_container:
+    name: pihole
+    image: docker.io/cbcrowe/pihole-unbound:latest
+    state: started
+    restart_policy: unless-stopped
+    hostname: "{{ pihole_hostname }}"
+    ports:
+      - "{{ pihole_webport }}:80/tcp"
+      - "{{ pihole_webport_https }}:443/tcp"
+      - "{{ pihole_ftlconf_local_ipv4 }}:53:53/tcp"
+      - "{{ pihole_ftlconf_local_ipv4 }}:53:53/udp"
+      - 5335:5335/tcp
+    env:
+      FTLCONF_LOCAL_IPV4: "{{ pihole_ftlconf_local_ipv4 }}"
+      TZ: "{{ pihole_tz }}"
+      WEBPASSWORD: "{{ pihole_webpassword }}"
+      WEBTHEME: "{{ pihole_webtheme }}"
+      REV_SERVER: "{{ pihole_rev_server }}"
+      REV_SERVER_TARGET: "{{ pihole_rev_server_target }}"
+      REV_SERVER_DOMAIN: "{{ pihole_rev_server_domain }}"
+      REV_SERVER_CIDR: "{{ pihole_rev_server_cidr }}"
+      PIHOLE_DNS_: "127.0.0.1#5335"
+      DNSSEC: "true"
+      DNSMASQ_LISTENING: "single"
+    volumes:
+      - "{{ podman_dir }}/pihole/etc_pihole-unbound:/etc/pihole:rw,z"
+      - "{{ podman_dir }}/pihole/etc_pihole_dnsmasq-unbound:/etc/dnsmasq.d:rw,z"
+    generate_systemd:
+      path: "/etc/systemd/system/"
+      restart_policy: always
+
+- name: Enable pihole container
+  ansible.builtin.service:
+    name: container-pihole
+    state: started
+    enabled: true
