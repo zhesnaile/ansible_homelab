@@ -3,10 +3,21 @@ username: user
 
 podman_dir: /home/{{ username }}/podman
 
-ip_address: hostname
-
+## WIREGUARD ##
+wg_ip_address: ip_address
 wg_password: changeme
+wg_port: 51820
+wg_webui_port: 51821
 
+## NGINX ##
+nginx_http_port: 80
+nginx_https_port: 443
+nginx_admin_port: 81
+# Default credentials for nginx-proxy-manager admin panel are
+# email: admina@example.com
+# password changeme
+
+## Rocky Packages ##
 packages:
   - epel-release
   - unzip
@@ -17,6 +28,7 @@ packages:
   - python3
   - python3-pip
 
+## Rocky Linux Podman Packages ##
 podman_packages:
   - podman
   - podman-compose
