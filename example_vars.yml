@@ -1,0 +1,10 @@
+username: <changeme>
+
+wg_ip_addres: <changeme>
+wg_password: <changeme>
+
+
+pihole_ftlconf_local_ipv4: "<changeme>"
+pihole_webpassword: "<changeme>"
+pihole_rev_server_target: "<changeme>"
+pihole_rev_server_cidr: "<changeme>"
