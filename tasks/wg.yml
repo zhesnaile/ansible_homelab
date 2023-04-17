@@ -41,6 +41,10 @@
       path: "/etc/systemd/system/"
       restart_policy: always
 
+- name: Systemd daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
 - name: Enable wg container
   ansible.builtin.service:
     name: container-wg
