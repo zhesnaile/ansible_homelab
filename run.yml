@@ -9,3 +9,4 @@
     - nginx
     - wireguard
     - pihole_unbound
+    - dashy
