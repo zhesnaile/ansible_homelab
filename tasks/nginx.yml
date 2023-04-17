@@ -17,9 +17,18 @@
     state: started
     restart_policy: unless-stopped
     ports:
-      - "80:80"
-      - "81:81"
-      - "443:443"
+      - "{{ nginx_http_port }}:80"
+      - "{{ nginx_admin_port }}:81"
+      - "{{ nginx_https_port }}:443"
     volumes:
       - "{{ podman_dir }}/nginx-proxy-manager/data:/data:z"
       - "{{ podman_dir }}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:z"
+    generate_systemd:
+      path: "/etc/systemd/system/"
+      restart_policy: always
+
+- name: Enable nginx container
+  ansible.builtin.service:
+    name: container-nginx-proxy-manager
+    state: started
+    enabled: yes

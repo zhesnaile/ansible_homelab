@@ -30,10 +30,19 @@
     state: started
     env:
       "PASSWORD": "{{ wg_password }}"
-      "WG_HOST": "{{ ip_address }}"
+      "WG_HOST": "{{ wg_ip_address }}"
     ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
+      - "{{ wg_port }}:51820/udp"
+      - "{{ wg_webui_port }}:51821/tcp"
     volumes:
       - "{{ podman_dir }}/wg/:/etc/wireguard:z"
     restart_policy: unless-stopped
+    generate_systemd:
+      path: "/etc/systemd/system/"
+      restart_policy: always
+
+- name: Enable wg container
+  ansible.builtin.service:
+    name: container-wg
+    state: started
+    enabled: yes
