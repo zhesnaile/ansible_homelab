@@ -1,0 +1,10 @@
+####  Rocky Packages  ####
+packages:
+  - epel-release
+  - unzip
+  - wget
+  - curl
+  - git
+  - vim
+  - python3
+  - python3-pip

@@ -1,0 +1,4 @@
+#### Rocky Podman pkgs ####
+podman_packages:
+  - podman
+  - podman-compose

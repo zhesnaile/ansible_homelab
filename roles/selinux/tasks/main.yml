@@ -5,5 +5,5 @@
 
 - name: Set Selinux to permissive
   ansible.posix.selinux:
-    state: permissive
-    policy: targeted
+    state: "{{ selinux_state }}"
+    policy: "{{ selinux_policy }}"

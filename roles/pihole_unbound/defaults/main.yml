@@ -1,0 +1,16 @@
+---
+#### Pihole + Unbound ####
+## The reference of all these values is available here:
+## https://github.com/chriscrowe/docker-pihole-unbound/tree/main/one-container#pi-hole-environment-variables
+
+pihole_ftlconf_local_ipv4: some_ip_net
+pihole_tz: Europe/Madrid
+pihole_webpassword: changeme
+pihole_rev_server: true
+pihole_rev_server_domain: local
+pihole_rev_server_target: some_ip
+pihole_rev_server_cidr: some_ip_net
+pihole_hostname: pihole
+pihole_webport: 8888
+pihole_webport_https: 8889
+pihole_webtheme: default-dark

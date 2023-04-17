@@ -1,5 +1,5 @@
 ---
-- name: Dnf Operations.
+- name: Update and install essential packages.
   block:
     - name: Update packages
       ansible.builtin.dnf:

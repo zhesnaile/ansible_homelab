@@ -1,0 +1,8 @@
+#####     NGINX      ####
+## nginx proxy manager
+## Default credentials for nginx-proxy-manager admin panel are
+## email: admina@example.com
+## password changeme
+nginx_http_port: 80
+nginx_https_port: 443
+nginx_admin_port: 81
