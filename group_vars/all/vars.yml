@@ -3,13 +3,13 @@ username: user
 
 podman_dir: /home/{{ username }}/podman
 
-## WIREGUARD ##
+####    WIREGUARD    ####
 wg_ip_address: ip_address
 wg_password: changeme
 wg_port: 51820
 wg_webui_port: 51821
 
-## NGINX ##
+#####     NGINX      ####
 nginx_http_port: 80
 nginx_https_port: 443
 nginx_admin_port: 81
@@ -17,7 +17,23 @@ nginx_admin_port: 81
 # email: admina@example.com
 # password changeme
 
-## Rocky Packages ##
+#### Pihole + Unbound ####
+pihole_ftlconf_local_ipv4: some_ip
+pihole_tz: Europe/Madrid
+pihole_webpassword: changeme
+pihole_rev_server: true
+pihole_rev_server_domain: local
+pihole_rev_server_target: some_ip
+pihole_rev_server_cidr: some_ip_net
+pihole_hostname: pihole
+#pihole_domain_name: pihole.local
+pihole_webport: 8888
+pihole_webport_https: 8889
+pihole_webtheme: default-dark
+
+
+
+####  Rocky Packages  ####
 packages:
   - epel-release
   - unzip
@@ -28,7 +44,7 @@ packages:
   - python3
   - python3-pip
 
-## Rocky Linux Podman Packages ##
+#### Rocky Podman pkgs ####
 podman_packages:
   - podman
   - podman-compose
