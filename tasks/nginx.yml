@@ -1,19 +1,19 @@
 ---
 - name: Create nginx directory
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ podman_dir }}/nginx-proxy-manager/{{ item }}"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: 0755
   loop:
-    - "{{ podman_dir }}/nginx-proxy-manager/data"
-    - "{{ podman_dir }}/nginx-proxy-manager/letsencrypt"
+    - "data"
+    - "letsencrypt"
 
 - name: Create nginx proxy manager container
   containers.podman.podman_container:
     name: nginx-proxy-manager
-    image: docker.io/jc21/nginx-proxy-manager
+    image: docker.io/jc21/nginx-proxy-manager:latest
     state: started
     restart_policy: unless-stopped
     ports:
@@ -31,4 +31,4 @@
   ansible.builtin.service:
     name: container-nginx-proxy-manager
     state: started
-    enabled: yes
+    enabled: true

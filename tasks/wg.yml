@@ -19,7 +19,7 @@
 - name: Create wg container
   containers.podman.podman_container:
     name: wg
-    image: docker.io/weejewel/wg-easy
+    image: docker.io/weejewel/wg-easy:latest
     sysctl:
       "net.ipv4.ip_forward": "1"
       "net.ipv4.conf.all.src_valid_mark": "1"
@@ -45,4 +45,4 @@
   ansible.builtin.service:
     name: container-wg
     state: started
-    enabled: yes
+    enabled: true
