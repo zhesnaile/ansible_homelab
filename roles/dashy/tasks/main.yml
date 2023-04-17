@@ -9,7 +9,7 @@
         group: "{{ username }}"
         mode: 0755
 
-    - name: Create dashy directory
+    - name: Create dashy config file
       ansible.builtin.template:
         src: ../templates/dashy_conf.j2
         dest: "{{ podman_dir }}/dashy/conf.yml"
