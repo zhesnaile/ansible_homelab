@@ -1,3 +1,5 @@
+- name: Update DNF based system
+  block:
     - name: Update all installed packages using dnf module
       dnf:
         name: '*'
@@ -5,18 +7,18 @@
         update_cache: yes
         update_only: yes
       register: yum_update_status
-      when: ansible_os_family == "RedHat"
 
     - name: Remove unneeded packages
       dnf:
         autoremove: yes
-      when: ansible_os_family == "RedHat" 
 
     - name: Reboot when packages were updated
       reboot:
-      when: yum_update_status.changed and ansible_os_family == "RedHat" 
+      when: yum_update_status.changed
+  when: ansible_os_family == "RedHat"
 
-
+- name: Update APT based system
+  block:
     - name: Update all installed packages using apt module
       apt:
         name: '*'
@@ -24,16 +26,14 @@
         update_cache: yes
         only_upgrade: yes
       register: apt_update_status
-      when: ansible_os_family == "Debian"
 
     - name: Remove unneeded packages
       apt:
         autoremove: yes
-      when: ansible_os_family == "Debian"
 
     - name: Reboot when packages were updated
       reboot:
         post_reboot_delay: 60
-      when: apt_update_status.changed and ansible_os_family == "Debian"
-
+      when: apt_update_status.changed
+  when: ansible_os_family == "Debian"
 
