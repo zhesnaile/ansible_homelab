@@ -14,3 +14,5 @@
       ansible.builtin.import_tasks: tasks/nginx.yml
     - name: Install wireguard
       ansible.builtin.import_tasks: tasks/wg.yml
+    - name: Install pihole + unbound
+      ansible.builtin.import_tasks: tasks/pihole_unbound.yml
