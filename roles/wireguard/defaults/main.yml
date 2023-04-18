@@ -4,3 +4,8 @@ wg_ip_address: ip_address
 wg_password: changeme
 wg_port: 51820
 wg_webui_port: 51821
+
+
+## WG network 10.8.4.X
+wg_ip: 10.8.4.10
+wg_nginx_ip: 10.8.4.5

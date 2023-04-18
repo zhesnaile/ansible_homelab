@@ -1,9 +1,11 @@
 - name: Install selinux dependencies
+  become: true
   ansible.builtin.dnf:
     name: python3-libselinux
     state: present
 
 - name: Set Selinux to permissive
+  become: true
   ansible.posix.selinux:
     state: "{{ selinux_state }}"
     policy: "{{ selinux_policy }}"

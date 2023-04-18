@@ -1,5 +1,7 @@
 ---
 - name: Update and install essential packages.
+  become: true
+  when: ansible_os_family == 'RedHat'
   block:
     - name: Update packages
       ansible.builtin.dnf:
@@ -17,8 +19,16 @@
         name: "{{ packages }}"
         state: present
       register: yum_install_status
-  when: ansible_os_family == 'RedHat'
+
 
 - name: Reboot when packages were updated
+  become: true
   ansible.builtin.reboot:
   when: yum_install_status.changed and ansible_os_family == "RedHat"
+
+- name: Set Selinux to permissive
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/selinux.yml"
+  when: ansible_os_family == 'RedHat'
+
+- name: Install docker
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/docker.yml"

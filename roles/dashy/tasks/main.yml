@@ -1,43 +1,29 @@
 ---
-- name: Start Dashy
-  block:
-    - name: Create dashy directory
-      ansible.builtin.file:
-        path: "{{ podman_dir }}/dashy/"
-        state: directory
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: 0755
+- name: Create dashy directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/dashy/"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
 
-    - name: Create dashy config file
-      ansible.builtin.template:
-        src: ../templates/dashy_conf.j2
-        dest: "{{ podman_dir }}/dashy/conf.yml"
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: 0644
+- name: Create dashy config file
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/dashy_conf.j2"
+    dest: "{{ docker_dir }}/dashy/conf.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
 
-    - name: Dashy podman Container
-      containers.podman.podman_container:
-        name: "dashy"
-        image: docker.io/lissy93/dashy:latest
-        state: started
-        restart_policy: unless-stopped
-        ports:
-          - "{{ dashy_port }}:80"
-        memory: "{{ dashy_memory }}"
-        volumes:
-          - "{{ podman_dir }}/dashy/conf.yml:/app/public/conf.yml:rw,z"
-        generate_systemd:
-          path: "/etc/systemd/system/"
-          restart_policy: always
-
-    - name: Systemd daemon-reload
-      ansible.builtin.systemd:
-        daemon_reload: true
-
-    - name: Enable dashy container
-      ansible.builtin.service:
-        name: container-dashy
-        state: started
-        enabled: true
+- name: Dashy docker Container
+  community.docker.docker_container:
+    name: "dashy"
+    image: docker.io/lissy93/dashy:latest
+    state: started
+    restart_policy: unless-stopped
+    memory: "{{ dashy_memory }}"
+    networks:
+      - name: "dashy_network"
+        ipv4_address: "{{ dashy_ip }}"
+    volumes:
+      - "{{ docker_dir }}/dashy/conf.yml:/app/public/conf.yml:rw,z"

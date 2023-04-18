@@ -10,6 +10,8 @@
   when: ansible_architecture == "aarch64" or ansible_architecture == "arm64"
 
 - name: Update dnf and install podman
+  become: true
+  when: ansible_os_family == 'RedHat'
   block:
     - name: Attempt installation
       ansible.builtin.dnf:
@@ -17,10 +19,10 @@
         name: "{{ podman_packages }}"
         state: present
 
-- name: Create podman directory
-  ansible.builtin.file:
-    path: "{{ podman_dir }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: 0755
+    - name: Create podman directory
+      ansible.builtin.file:
+        path: "{{ podman_dir }}"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: 0755

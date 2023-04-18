@@ -1,7 +1,7 @@
 ---
 - name: Create nginx directory
   ansible.builtin.file:
-    path: "{{ podman_dir }}/nginx-proxy-manager/{{ item }}"
+    path: "{{ docker_dir }}/nginx-proxy-manager/{{ item }}/"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -10,29 +10,23 @@
     - "data"
     - "letsencrypt"
 
+
 - name: Create nginx proxy manager container
-  containers.podman.podman_container:
+  community.docker.docker_container:
     name: nginx-proxy-manager
     image: docker.io/jc21/nginx-proxy-manager:latest
     state: started
     restart_policy: unless-stopped
+    networks:
+      - name: wg_network
+        ipv4_address: "{{ wg_nginx_ip }}"
+      - name: dashy_network
+        ipv4_address: "{{ dashy_nginx_ip }}"
+      - name: pihole_network
+        ipv4_address: "{{ pihole_nginx_ip }}"
     ports:
-      - "{{ nginx_http_port }}:80"
       - "{{ nginx_admin_port }}:81"
       - "{{ nginx_https_port }}:443"
     volumes:
-      - "{{ podman_dir }}/nginx-proxy-manager/data:/data:z"
-      - "{{ podman_dir }}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:z"
-    generate_systemd:
-      path: "/etc/systemd/system/"
-      restart_policy: always
-
-- name: Systemd daemon-reload
-  ansible.builtin.systemd:
-    daemon_reload: true
-
-- name: Enable nginx container
-  ansible.builtin.service:
-    name: container-nginx-proxy-manager
-    state: started
-    enabled: true
+      - "{{ docker_dir }}/nginx-proxy-manager/data:/data:z"
+      - "{{ docker_dir }}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt:z"

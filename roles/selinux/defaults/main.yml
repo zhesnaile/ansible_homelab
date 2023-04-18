@@ -1,3 +1,0 @@
-#### SeLinux policies ####
-selinux_policy: targeted
-selinux_state: permissive

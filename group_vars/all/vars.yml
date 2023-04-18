@@ -2,3 +2,5 @@
 username: user
 
 podman_dir: /home/{{ username }}/podman
+
+docker_dir: /home/{{ username }}/docker

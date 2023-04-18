@@ -8,3 +8,13 @@ packages:
   - vim
   - python3
   - python3-pip
+
+#### Rocky Podman pkgs ####
+podman_packages:
+  - podman
+  - podman-compose
+
+
+#### SeLinux policies ####
+selinux_policy: targeted
+selinux_state: permissive

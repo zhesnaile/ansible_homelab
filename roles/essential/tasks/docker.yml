@@ -1,0 +1,69 @@
+- name: Set RedHat distribution
+  ansible.builtin.set_fact:
+    rh_distribution: >-
+      {%- if ansible_distribution == 'RedHat' -%}
+        {%- set rh_distribution = "rhel" -%}
+      {%- elif ansible_distribution == 'Fedora' -%}
+        {%- set rh_distribution = "fedora" -%}
+      {%- else -%}
+        {%- set rh_distribution = "centos" -%}
+      {%- endif -%}
+      {{- rh_distribution -}}
+
+- name: Install Docker on Rocky
+  become: true
+  when: ansible_facts["os_family"] == "RedHat"
+  block:
+    - name: Uninstall old versions
+      ansible.builtin.dnf:
+        name:
+          - docker-client
+          - docker-client-latest
+          - docker-common
+          - docker-latest
+          - docker-latest-logrotate
+          - docker-logrotate
+          - docker-engine
+        state: absent
+
+    - name: Add signing key for yum
+      ansible.builtin.rpm_key:
+        key: "https://download.docker.com/linux/{{ rh_distribution }}/gpg"
+        state: present
+
+    - name: Add repository into repo.d list for yum
+      ansible.builtin.yum_repository:
+        name: docker
+        description: docker repository
+        baseurl: "https://download.docker.com/linux/{{ rh_distribution }}/$releasever/$basearch/stable"
+        enabled: true
+        gpgcheck: true
+        gpgkey: "https://download.docker.com/linux/{{ rh_distribution }}/gpg"
+
+    - name: Install the latest version of Docker Engine and containerd
+      ansible.builtin.dnf:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+    - name: Start and enable docker
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add the current user to the docker group
+      user:
+        name: "{{ username }}"
+        groups: docker
+        append: yes
+
+    - name: Create Docker directory
+      ansible.builtin.file:
+        path: "{{ docker_dir }}"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: 0755
+

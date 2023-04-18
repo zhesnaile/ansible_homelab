@@ -4,9 +4,8 @@
   become: true
   roles:
     - essential
-    - podman
-    - selinux
-    - nginx
+    - docker_network
     - wireguard
+    - nginx
     - pihole_unbound
     - dashy
