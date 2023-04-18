@@ -30,7 +30,7 @@ data "template_file" "network_config" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  name           = "commoninit.iso"
+  name           = "commoninit_rocky_test.iso"
   user_data      = "${data.template_file.user_data.rendered}"
   network_config = "${data.template_file.network_config.rendered}"
   pool           = "default"
@@ -56,9 +56,9 @@ resource "libvirt_domain" "rocky_test" {
     target_type = "serial"
     target_port = "0"
   }
-
   graphics {
-    type = "spice"
+    #type = "spice"
+    type = "vnc"
     listen_type = "address"
     autoport = true
   }

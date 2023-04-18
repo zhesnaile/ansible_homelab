@@ -29,7 +29,7 @@ data "template_file" "network_config" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  name           = "commoninit.iso"
+  name           = "commoninit_pterodactyl_ubuntu.iso"
   user_data      = "${data.template_file.user_data.rendered}"
   network_config = "${data.template_file.network_config.rendered}"
   pool           = "default"
