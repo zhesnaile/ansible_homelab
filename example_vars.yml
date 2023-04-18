@@ -1,6 +1,8 @@
 username: <changeme>
 
-wg_ip_addres: <changeme>
+homeserver: "<changeme>"
+homeserver_ipv4: "<changeme>"
+wg_ip_address: <changeme>
 wg_password: <changeme>
 
 
