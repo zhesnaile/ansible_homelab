@@ -1,6 +1,9 @@
 ---
 username: user
 
+homeserver_domain: "homeserver"
+homeserver_ipv4: 192.168.1.2
+
 podman_dir: /home/{{ username }}/podman
 
 docker_dir: /home/{{ username }}/docker
