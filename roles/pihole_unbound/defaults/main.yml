@@ -18,8 +18,8 @@ pihole_webtheme: default-dark
 
 ## pihole net 10.8.3.X
 pihole_ip: 10.8.3.10
-pihole_nginx_ip: 10.8.3.5
 
 
-## wg net 10.8.4.X
-wg_dns_ip: 10.8.4.20
+homeserver_ipv4: 192.168.1.2
+homeserver_domain: homeserver
+

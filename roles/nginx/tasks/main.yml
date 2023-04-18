@@ -7,9 +7,21 @@
     group: "{{ username }}"
     mode: 0755
   loop:
-    - "data"
+    - "data/nginx/proxy_host/"
     - "letsencrypt"
 
+- name: Create nginx config files
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/{{ item }}.j2"
+    dest: "{{ docker_dir }}/nginx-proxy-manager/data/nginx/proxy_host/{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+  loop:
+    - "wg-easy.conf"
+    - "dashy.conf"
+    - "nginx-admin-panel.conf"
+    - "pihole.conf"
 
 - name: Create nginx proxy manager container
   community.docker.docker_container:
@@ -25,6 +37,7 @@
       - name: pihole_network
         ipv4_address: "{{ pihole_nginx_ip }}"
     ports:
+      - "{{ nginx_http_port }}:80"
       - "{{ nginx_admin_port }}:81"
       - "{{ nginx_https_port }}:443"
     volumes:

@@ -9,6 +9,23 @@
   loop:
     - "etc_pihole-unbound"
     - "etc_pihole_dnsmasq-unbound"
+
+- name: Create unbound config file
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/custom.list.j2"
+    dest: "{{ docker_dir }}/pihole/etc_pihole-unbound/custom.list"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+
+- name: Create cname config file
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/05-pihole-custom-cname.conf.j2"
+    dest: "{{ docker_dir }}/pihole/etc_pihole_dnsmasq-unbound/05-pihole-custom-cname.conf"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+
 - name: Set up pihole service
   block:
     - name: Create pihole_unbound container
