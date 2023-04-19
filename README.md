@@ -13,7 +13,8 @@ Working:
 - [x] [nginx-proxy-manager](https://nginxproxymanager.com/)
 - [x] [wireguard-easy](https://github.com/WeeJeWel/wg-easy)
 - [x] [pihole + unbound](https://github.com/chriscrowe/docker-pihole-unbound/)
-- [x] dashy
+- [x] [dashy](https://github.com/lissy93/dashy)
+
 Todo:
 
 - [ ] vaultwarden
