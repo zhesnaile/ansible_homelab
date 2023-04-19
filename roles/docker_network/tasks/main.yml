@@ -6,19 +6,10 @@
         gateway: 10.8.4.1
         iprange: 10.8.4.0/24
 
-- name: Create the pihole network
+- name: Create the homelab network
   community.general.docker_network:
-    name: pihole_network
+    name: "homelab_network"
     ipam_config:
       - subnet: 10.8.3.0/24
         gateway: 10.8.3.1
         iprange: 10.8.3.0/24
-
-
-- name: Create the dashy network
-  community.general.docker_network:
-    name: dashy_network
-    ipam_config:
-      - subnet: 10.8.5.0/24
-        gateway: 10.8.5.1
-        iprange: 10.8.5.0/24

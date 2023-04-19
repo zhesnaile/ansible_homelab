@@ -32,13 +32,12 @@
     networks:
       - name: wg_network
         ipv4_address: "{{ wg_nginx_ip }}"
-      - name: dashy_network
-        ipv4_address: "{{ dashy_nginx_ip }}"
-      - name: pihole_network
-        ipv4_address: "{{ pihole_nginx_ip }}"
+      - name: homelab_network
+        ipv4_address: "{{ homelab_nginx_ip }}"
+
     ports:
       - "{{ nginx_http_port }}:80"
-      - "{{ nginx_admin_port }}:81"
+      #- "{{ nginx_admin_port }}:81"
       - "{{ nginx_https_port }}:443"
     volumes:
       - "{{ docker_dir }}/nginx-proxy-manager/data:/data:z"

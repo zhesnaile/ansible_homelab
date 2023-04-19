@@ -16,7 +16,7 @@ pihole_webport_https: 8889
 pihole_webtheme: default-dark
 
 
-## pihole net 10.8.3.X
+## homelab net 10.8.3.X
 pihole_ip: 10.8.3.10
 
 

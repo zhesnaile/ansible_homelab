@@ -23,7 +23,7 @@
     restart_policy: unless-stopped
     memory: "{{ dashy_memory }}"
     networks:
-      - name: "dashy_network"
+      - name: "homelab_network"
         ipv4_address: "{{ dashy_ip }}"
     volumes:
       - "{{ docker_dir }}/dashy/conf.yml:/app/public/conf.yml:rw,z"
