@@ -11,7 +11,7 @@
   community.general.modprobe:
     name: "{{ item }}"
     state: present
-    persistent: present
+    #persistent: present
   loop:
     - wireguard
     - iptable_raw
