@@ -21,7 +21,6 @@
     image: docker.io/lissy93/dashy:latest
     state: started
     restart_policy: unless-stopped
-    memory: "{{ dashy_memory }}"
     networks:
       - name: "homelab_network"
         ipv4_address: "{{ dashy_ip }}"
